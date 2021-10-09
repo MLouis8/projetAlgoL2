@@ -243,29 +243,59 @@ bool QueDesZeros(Liste l) {
     return true;
 }
 
-int Compte0InitiauxVRec(Liste l) {}
+int Compte0InitiauxVRec(Liste l) {
+    if (estVide(l) or premier(l) != 0) return 0;
+    depile(&l);
+    return 1 + Compte0InitiauxVRec(l);
+}
 
-int Compte0InitiauxVit(Liste l) {}
+int Compte0InitiauxVit(Liste l) {
+    int cpt = 0;
+    while(not estVide(l) or premier(l) != 0) {
+        cpt++;
+        depile(&l);
+    }
+    return cpt;
+}
 
 int Compte0InitiauxVSsFonc(Liste l) {}
 
 int Compte0InitiauxVSsPro(Liste l) {}
 
-IntersectionTriee() {
-
+Liste IntersectionTriee(Liste l1, Liste l2) {
+    // Liste l = (*int)malloc(1*sizeof(*int));
+    if (estVide(l1) or estVide(l2)) return l; // a corriger pour renvoyer une liste vide
+    if (premier(l1) > premier(l2)) { // pas sur que cela fonctionne avec les liste, verifier le passage
+        Liste temp = l1;
+        l1 = l2;
+        l2 = temp;
+    }
+    while(not (estVide(l1) or estVide(l2)) ) {
+        if (premier(l1) < premier(l2)) {
+            depile(&l1);
+        } else if (premier(l1) > premier(l2)) {
+            depile(&l2);
+        } else {
+            empile(premier(l1), &l);
+            depile(&l1);
+            depile(&l2);
+        }
+    }
+    return l;
 }
 
-ElimineKpremiersX() {
-
+void ElimineKpremiersX(Liste l, int k, int x) {
+    if (k == 0 or estVide(l)) return;
+    if (premier(l) == x)
+        ElimineKpremiersX(suite(l), k-1, x);
+    else
+        ElimineKpremiersX(suite(l), k, x);
+        empile(premier(l), &);
 }
 
-ElimineKderniersX() {
+void ElimineKderniersX(Liste l, int k, int x) {}
 
-}
-
-Permutations() {
-
-}
+Liste Permutations() {}
 
 
 /*************************************************/
