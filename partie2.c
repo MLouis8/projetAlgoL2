@@ -277,21 +277,23 @@ void ElimineKpremiersX(Liste l, int k, int x) {
     }
 }
 
-void ElimineKderniersXBis(Liste l, Liste post, int k, int x) {
+void ElimineKderniersXBis(Liste l, Liste post, int *k, int x) {
   if (!estVide(post)) {
     ElimineKderniersXBis(suite(l), suite(post), k, x);
-    if (premier(post) == x) {
+    if ((premier(post) == x) && *k > 0)  {
         l->suivant = post->suivant;
         free(post);
+        (*k)--;
     }
   }
 }
 
 void ElimineKderniersX(Liste l, int k, int x) {
   if (estVide(l)) return;
-  ElimineKderniersXBis(l, suite(l), k, x);
+  ElimineKderniersXBis(l, suite(l), &k, x);
 }
 
+Liste 
 /*************************************************/
 /*                                               */
 /*           Main                                */
