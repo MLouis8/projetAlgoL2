@@ -13,7 +13,11 @@
 #define NOT !
 #define then
 
-typedef enum { FALSE, TRUE } bool;
+typedef enum
+  {
+    FALSE,
+    TRUE
+  } bool;
 
 /*************************************************/
 /*                                               */
@@ -273,12 +277,20 @@ void ElimineKpremiersX(Liste l, int k, int x) {
     }
 }
 
-/*
-void ElimineKderniersX(Liste l, int k, int x) {
-    return;
+void ElimineKderniersXBis(Liste l, Liste post, int k, int x) {
+  if (!estVide(post)) {
+    ElimineKderniersXBis(suite(l), suite(post), k, x);
+    if (premier(post) == x) {
+        l->suivant = post->suivant;
+        free(post);
+    }
+  }
 }
-*/
 
+void ElimineKderniersX(Liste l, int k, int x) {
+  if (estVide(l)) return;
+  ElimineKderniersXBis(l, suite(l), k, x);
+}
 
 /*************************************************/
 /*                                               */
