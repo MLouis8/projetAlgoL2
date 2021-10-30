@@ -293,7 +293,10 @@ void ElimineKderniersX(Liste l, int k, int x) {
   ElimineKderniersXBis(l, suite(l), &k, x);
 }
 
-Liste 
+int factorielle(int x) {
+  return (if x==0) ? 1 : n * factorielle(x);
+}
+
 /*************************************************/
 /*                                               */
 /*           Main                                */

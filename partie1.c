@@ -63,6 +63,71 @@ float puissanceFloat(float x, int n)
 }
 
 /**
+ * Fonction power iteratif : x^n = x*x^(n-1)
+ * @param float x
+ * @param unsigned int n
+ * @return double x^n
+ **/
+double powerIt(float x, unsigned int n)
+{
+    double output = 1;
+    while (n > 0)
+    {
+        output *= x;
+        n--;
+    }
+    return output;
+}
+
+/**
+ * Fonction power recursif : x^n = x*x^(n-1)
+ * @param float x
+ * @param unsigned int n
+ * @return double x^n
+ **/
+double powerRec(float x, unsigned int n)
+{
+    if (n == 0) return 1;
+    return x*powerRec(x, n-1);
+}
+
+/**
+ * Fonction power : x^p = x^(p/2) * x^(p/2)
+ * @param float x
+ * @param unsigned float p
+ * @return double x^p
+ **/
+double powerP(float x, unsigned int p)
+{
+    if (int(p) == 0) return 1;
+    return powerP(x, p/2) * powerP(x, p/2);
+}
+
+/**
+ * Fonction intermediaire pour power recursif terminal
+ * @param float x
+ * @param unsigned int n
+ * @param double acc
+ * @return double x^n
+ **/
+double powerRecTermBis(float x, unsigned int n, double acc)
+{
+    if (n == 0) return 1;
+    return powerRec(x, n-1, x*acc);
+}
+
+/**
+ * Fonction power recursif terminal
+ * @param float x
+ * @param unsigned int n
+ * @return double x^n
+ **/
+double powerRecTerm(float x, unsigned int n)
+{
+    return powerRecTermBis(x, n, 1);
+}
+
+/**
  * Fonction d'Ackermann
  * @param unsigned int m
  * @param unsigned int n
