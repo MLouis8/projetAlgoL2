@@ -99,8 +99,13 @@ double powerRec(float x, unsigned int n)
  **/
 double powerP(float x, unsigned int p)
 {
-    if (int(p) == 0) return 1;
-    return powerP(x, p/2) * powerP(x, p/2);
+    if (p == 0) return 1;
+    double output = powerP(x, p/2);
+    if (p%2 == 0) { // si pair
+        return output * output;
+    } else { // si impair
+        return output * output * x;        
+    }
 }
 
 /**
@@ -112,8 +117,8 @@ double powerP(float x, unsigned int p)
  **/
 double powerRecTermBis(float x, unsigned int n, double acc)
 {
-    if (n == 0) return 1;
-    return powerRec(x, n-1, x*acc);
+    if (n == 0) return acc;
+    return powerRecTermBis(x, n-1, x*acc);
 }
 
 /**
@@ -174,6 +179,10 @@ int main()
 {
     //printf("%lf", puissance(1.001, 1000));
     //printf("%ld", ackermann(5, 0));
-    printf("%lf\n", xRecursive(100));
+    //printf("%lf\n", xRecursive(100));
+    printf("%lf\n", powerIt(10.5, 3));
+    printf("%lf\n", powerRec(10.5, 3));
+    printf("%lf\n", powerRecTerm(10.5, 3));
+    printf("%lf\n", powerP(10.5, 3));
     return 0;
 }
