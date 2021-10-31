@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 /**
  * Approxime exp(1) sans recalculer 1/(n!) à chaque itération
@@ -18,12 +19,12 @@ double exponentielle(unsigned int limit)
 }
 
 /**
- * Calcule x^n avec n ∈ ℤ
- * @param double x
+ * Calcule x^n avec n ∈ ℤ de maniere iterative : x^n = x*x^(n-1)
+ * @param float x
  * @param int n
  * @return double x^n
  **/
-double puissance(double x, int n)
+double powerIt(float x, int n)
 {
     double output = 1;
     // ici j'utilise un do while pour éviter de regarder
@@ -42,12 +43,12 @@ double puissance(double x, int n)
 }
 
 /**
- * Similaire à puissance mais avec des floats
- * @param float x
+ * Similaire à powerIt mais avec un double
+ * @param double x
  * @param int n
  * @return double x^n
  **/
-float puissanceFloat(float x, int n)
+float powerItDouble(double x, int n)
 {
     float output = 1;
     if (n > 0)
@@ -59,23 +60,6 @@ float puissanceFloat(float x, int n)
     else
         for (; n < 0; n++)
             output /= x;
-    return output;
-}
-
-/**
- * Fonction power iteratif : x^n = x*x^(n-1)
- * @param float x
- * @param unsigned int n
- * @return double x^n
- **/
-double powerIt(float x, unsigned int n)
-{
-    double output = 1;
-    while (n > 0)
-    {
-        output *= x;
-        n--;
-    }
     return output;
 }
 
@@ -177,12 +161,71 @@ double xRecursive(int n)
 
 int main()
 {
-    //printf("%lf", puissance(1.001, 1000));
-    //printf("%ld", ackermann(5, 0));
-    //printf("%lf\n", xRecursive(100));
-    printf("%lf\n", powerIt(10.5, 3));
-    printf("%lf\n", powerRec(10.5, 3));
-    printf("%lf\n", powerRecTerm(10.5, 3));
-    printf("%lf\n", powerP(10.5, 3));
+    ////////////////////// Exercice puissance //////////////////////
+    
+    /* Comparaison des temps de calcul :  calcul de 1.001^1000 */
+    clock_t start, end;
+    float p;
+
+    // Version iterative
+    start = clock();
+    p = powerIt(1.001, 1000);
+    end = clock();
+    printf("fonction puissance iterative, resultat : %f temps : %f ms\n", p, ((double) end - start) / 1000);
+
+    // Version recursive
+    start = clock();
+    p = powerRec(1.001, 1000);
+    end = clock();
+    printf("fonction puissance recursive, resultat : %f temps : %f ms\n", p, ((double) end - start) / 1000);
+
+    // Version p/2
+    start = clock();
+    p = powerP(1.001, 1000);
+    end = clock();
+    printf("fonction puissance p = (p^(1/2))^2, resultat : %f temps : %f ms\n", p, ((double) end - start) / 1000);
+
+    // Version recursive terminale
+    start = clock();
+    p = powerRecTerm(1.001, 1000);
+    end = clock();
+    printf("fonction puissance recursive terminale, resultat : %f temps : %f ms\n", p, ((double) end - start) / 1000);
+
+    // Comparaison float vs double
+    float f = powerIt(1.001, 1000);
+    double d = powerItDouble(1.001, 1000);
+    printf("\nComparons la difference de precision entre float et double :\n float:  %f\n double: %lf\n", f, d);
+    
+    /* Observations:
+        Rapidite :
+        La plus rapide est la fonction qui utilise le resultat p = (p^(1/2))^2 
+        et qui appelle donc recursivement en divisant le probleme en 2 parties a chaque fois.
+
+        Precision :
+        Le resultat obtenu n'est pas le meme en fonction de la precision
+    */
+
+    ////////////////////// Exercice Ackermann //////////////////////
+
+    
+
+    //////////////////////     Exercice X     //////////////////////
+    
+    // Comparons le temps d'execution des deux versions
+    // Version Iterative
+    start = clock();
+    double X1 = xIterative(100);
+    end = clock();
+    double timeIt = ((double) end - start) / 1000;
+
+    // Version Recursive
+    start = clock();
+    double X2 = xRecursive(100);
+    end = clock();
+    double timeRec = ((double) end - start) / 1000;
+
+    printf("\n\nLa version iterative met: %f ms a calculer %f\nLa version recursive met: %f ms a caculer %f", timeIt, X1, timeRec, X2);
+    // La version iterative est plus rapide pour le meme resultat
+
     return 0;
 }
