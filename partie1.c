@@ -117,20 +117,37 @@ double powerRecTerm(float x, unsigned int n)
 }
 
 /**
- * Fonction d'Ackermann
+ * Fonction d'Ackermann recursive
  * @param unsigned int m
  * @param unsigned int n
  * @return A(m, n)
  **/
-unsigned int ackermann(unsigned int m, unsigned int n)
+unsigned int ackermannRec(unsigned int m, unsigned int n)
 {
     if (m == 0)
         return n + 1;
 
     if (n == 0)
-        return ackermann(m - 1, 1);
+        return ackermannRec(m - 1, 1);
 
-    return ackermann(m - 1, ackermann(m, n - 1));
+    return ackermannRec(m - 1, ackermannRec(m, n - 1));
+}
+
+/**
+ * Fonction d'Ackermann iterative et recursive
+ * @param unsigned int m
+ * @param unsigned int n
+ * @return A(m, n)
+ **/
+unsigned int ackermannIt(unsigned int m, unsigned int n)
+{
+    unsigned int output = n+1; // Cas ou m == 0
+    while(m > 0)
+    {
+        if (n != 0)
+            ackermannIt(m-1, ackermannIt(m, n-1));
+    }
+    return output;
 }
 
 /**
@@ -194,7 +211,7 @@ int main()
     // Comparaison float vs double
     float f = powerIt(1.001, 1000);
     double d = powerItDouble(1.001, 1000);
-    printf("\nComparons la difference de precision entre float et double :\n float:  %f\n double: %lf\n", f, d);
+    printf("\nComparons la difference de precision entre float et double :\n float:  %f\n double: %lf\n\n", f, d);
     
     /* Observations:
         Rapidite :
@@ -207,7 +224,8 @@ int main()
 
     ////////////////////// Exercice Ackermann //////////////////////
 
-    
+    for (int m = 0; m < 5; m++ ) // La sixieme valeur est trop longue a calculer
+        printf("A(%d, 0) = %d\n", m, ackermannRec(m, 0));
 
     //////////////////////     Exercice X     //////////////////////
     
